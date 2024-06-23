@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const longbreaktimer = 900; // 15 minutes
     const pomodorountilLongbrk = 4;
     let multipliervalue = 360 / timerValue;
+    let isPomodoroSession = false; // Flag to track if current session is a pomodoro session
 
     startBtn.addEventListener("click", startTimer);
     pauseBtn.addEventListener("click", pauseTimer);
@@ -36,14 +37,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function startTimer() {
         playBeepSound(); // play beep sound when starting
+
+        // Check if it's a pomodoro session and update count accordingly
+        if (pomodoroType === "POMODORO" && !isPomodoroSession) {
+            isPomodoroSession = true;
+            pomodoroCount++;
+            pomCount.textContent = `Pomodoro Count: ${pomodoroCount}`;
+        }
+
         progressInterval = setInterval(() => {
             timerValue--;
             setProgressInfo();
             if (timerValue === 0) {
                 clearInterval(progressInterval);
                 playBeepSound(); // play beep sound when pomodoro session ends
-                pomodoroCount++;
-                pomCount.textContent = `Pomodoro Count: ${pomodoroCount}`;
+                if (pomodoroType === "POMODORO") {
+                    isPomodoroSession = false; // Reset flag after pomodoro session ends
+                }
                 if (pomodoroCount % pomodorountilLongbrk === 0) {
                     longbrkBtn.style.display = "flex";
                 }
@@ -91,6 +101,9 @@ document.addEventListener("DOMContentLoaded", () => {
             pomodoroType === "SHORTBREAK" ? shortbreaktimer : longbreaktimer;
         multipliervalue = 360 / timerValue;
         setProgressInfo();
+        if (pomodoroType === "POMODORO") {
+            isPomodoroSession = false; // Reset flag when timer is reset
+        }
     }
 
     function addTodo() {
@@ -99,15 +112,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const li = document.createElement("li");
         li.textContent = todoText;
-        
+
         const removeBtn = document.createElement("button");
         removeBtn.textContent = "Remove";
         removeBtn.classList.add("remove-todo-btn"); // Add class for styling
-        
+
         removeBtn.addEventListener("click", () => {
             li.remove();
         });
-        
+
         li.appendChild(removeBtn);
         todoList.appendChild(li);
         todoInput.value = "";
@@ -116,27 +129,27 @@ document.addEventListener("DOMContentLoaded", () => {
     function addNote() {
         const noteText = notesTextarea.value.trim();
         if (noteText === "") return;
-    
+
         const note = document.createElement("div");
         note.textContent = noteText;
         note.classList.add("sticky-note");
         note.style.backgroundColor = getRandomColor();
-    
+
         const removeBtn = document.createElement("button");
         removeBtn.textContent = "";
         removeBtn.classList.add("remove-btn"); // Ensure correct class name
-        
+
         removeBtn.addEventListener("click", () => {
             notesList.removeChild(note);
             saveNotes();
         });
-    
+
         note.appendChild(removeBtn);
         notesList.appendChild(note);
         notesTextarea.value = "";
         saveNotes();
     }
-    
+
 
     function getRandomColor() {
         const colors = ["#f4f4a1", "#f4b3a1", "#a1f4e5", "#f4a1e0", "#a1a9f4", "#a1f4a1"];
