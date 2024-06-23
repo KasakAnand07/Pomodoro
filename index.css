@@ -124,6 +124,13 @@ button:hover {
   margin-bottom: 20px;
 }
 
+.function-button {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 .todo-container, .notes-container {
   width: 80%;
   margin-bottom: 20px;
