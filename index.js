@@ -129,28 +129,28 @@ document.addEventListener("DOMContentLoaded", () => {
     function addNote() {
         const noteText = notesTextarea.value.trim();
         if (noteText === "") return;
-
+      
         const note = document.createElement("div");
         note.textContent = noteText;
         note.classList.add("sticky-note");
         note.style.backgroundColor = getRandomColor();
-
-        const removeBtn = document.createElement("button");
-        removeBtn.textContent = "";
+      
+        const removeBtn = document.createElement("buttons");
+        removeBtn.textContent = "X"; // Adjust button text for visibility
         removeBtn.classList.add("remove-btn"); // Ensure correct class name
-
+      
         removeBtn.addEventListener("click", () => {
-            notesList.removeChild(note);
-            saveNotes();
+          note.remove(); // Remove the entire note div
+          saveNotes();
         });
-
+      
         note.appendChild(removeBtn);
         notesList.appendChild(note);
         notesTextarea.value = "";
         saveNotes();
-    }
-
-
+      }
+      
+      
     function getRandomColor() {
         const colors = ["#f4f4a1", "#f4b3a1", "#a1f4e5", "#f4a1e0", "#a1a9f4", "#a1f4a1"];
         return colors[Math.floor(Math.random() * colors.length)];

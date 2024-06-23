@@ -243,25 +243,28 @@ ul li button:hover {
   transform: scale(1.1);
 }
 
-/* Sticky Notes */
+/*Sticky-Notes*/
 .sticky-note {
   position: relative;
   display: inline-block;
   background-color: #ffeb3b;
   color: #000000;
-  padding: 10px;
-  margin: 5px;
+  padding: 15px; /* Increase padding to provide space for the remove button */
+  margin: 18px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-size: 14px;
-  width: 100px; /* Adjust width as needed */
+  max-width: 300px; /* Limit maximum width to prevent excessive stretching */
+  word-wrap: break-word; /* Ensure long content wraps within the sticky note */
+  overflow: hidden; /* Hide overflow content if any */
+  line-height: 1.4; /* Increase line height to separate content from edges */
 }
 
-.sticky-note .remove-btn {
+.remove-btn {
   position: absolute;
   top: 5px;
   right: 5px;
-  background: linear-gradient(45deg, #db2a34, #b81d2b);
+  background-color: #db2a34; /* Red background color */
   color: #ffffff;
   border: none;
   border-radius: 50%;
@@ -271,16 +274,19 @@ ul li button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1; /* Ensure remove button is above the sticky note */
   transition: background-color 0.3s, transform 0.3s;
 }
 
-.sticky-note .remove-btn:hover {
-  transform: scale(1.1);
-}
-
-.notes-list {
-  display: flex;
-  flex-wrap: wrap;
+/* Adjust remove button size and position for smaller screens */
+@media (max-width: 480px) {
+  .remove-btn {
+    top: 3px;
+    right: 3px;
+    width: 15px;
+    height: 15px;
+    font-size: 10px;
+  }
 }
 
 /* Responsive adjustments */
